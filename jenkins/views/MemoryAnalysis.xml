@@ -17,6 +17,16 @@
     <string>Volatility.6</string>
     <string>Volatility.7</string>
     <string>Volatility.8</string>
+    <string>VolatilityLinux</string>
+    <string>VolatilityLinux.1-ps</string>
+    <string>VolatilityLinux.2-lib</string>
+    <string>VolatilityLinux.3-net</string>
+    <string>VolatilityMac</string>
+    <string>VolatilityMac.1-ps</string>
+    <string>VolatilityMac.2-lib</string>
+    <string>VolatilityMac.3-net</string>
+    <string>VolatilityMac.4-injection</string>
+    <string>Rekall</string>
   </jobNames>
   <jobFilters/>
   <columns>

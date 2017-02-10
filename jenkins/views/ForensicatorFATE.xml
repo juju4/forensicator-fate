@@ -7,6 +7,8 @@
   <jobNames>
     <comparator class="hudson.util.CaseInsensitiveComparator"/>
     <string>findWindowsEvidence</string>
+    <string>findLinuxEvidence</string>
+    <string>findMacEvidence</string>
   </jobNames>
   <jobFilters/>
   <columns>

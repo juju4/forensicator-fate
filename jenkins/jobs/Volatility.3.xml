@@ -4,6 +4,10 @@
   <description>Volatility - Step 3 - Review Network Artifacts</description>
   <keepDependencies>false</keepDependencies>
   <properties>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
@@ -31,6 +35,11 @@
           <description>Specify the location of the memory image to analyse.</description>
           <defaultValue>/artifacts/${CASE_NAME}</defaultValue>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>VOLATILITY_ARGS</name>
+          <description>Specify extra arguments to pass to volatility</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
@@ -43,8 +52,18 @@
   <concurrentBuild>true</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>if [[ ! -d $OUTPUT_LOCATION ]]; then mkdir $OUTPUT_LOCATION; fi
-if  [[ $VOLATILITY_PROFILE =~ &quot;WinXP&quot; ]] ; then vol.py connections &gt;${OUTPUT_LOCATION}/connections_output &amp;&amp; vol.py connscan &gt;${OUTPUT_LOCATION}/connscan_output &amp;&amp; vol.py sockets &gt;${OUTPUT_LOCATION}/sockets_output &amp;&amp; vol.py sockscan &gt;${OUTPUT_LOCATION}/sockscan_output; elif [[ $VOLATILITY_PROFILE =~ &quot;Win2K3&quot; ]] ; then vol.py connections &gt;${OUTPUT_LOCATION}/connections_output &amp;&amp; vol.py connscan &gt;${OUTPUT_LOCATION}/connscan_output &amp;&amp; vol.py sockets &gt;${OUTPUT_LOCATION}/sockets_output &amp;&amp; vol.py sockscan &gt;${OUTPUT_LOCATION}/sockscan_output; elif [[ $VOLATILITY_PROFILE =~ &quot;Win&quot; ]] ; then vol.py netscan &gt;${OUTPUT_LOCATION}/netscan_output; else echo &quot;Unsupported Memory Image Profile to Review Network Artifacts&quot;; fi</command>
+      <command>set -x
+if [[ ! -d $OUTPUT_LOCATION ]]; then mkdir $OUTPUT_LOCATION || true; fi
+
+if  [[ $VOLATILITY_PROFILE =~ &quot;WinXP&quot; ]] ; then
+	vol.py ${VOLATILITY_ARGS} connections &gt;${OUTPUT_LOCATION}/connections_output &amp;&amp; vol.py ${VOLATILITY_ARGS} connscan &gt;${OUTPUT_LOCATION}/connscan_output &amp;&amp; vol.py ${VOLATILITY_ARGS} sockets &gt;${OUTPUT_LOCATION}/sockets_output &amp;&amp; vol.py ${VOLATILITY_ARGS} sockscan &gt;${OUTPUT_LOCATION}/sockscan_output; 
+elif [[ $VOLATILITY_PROFILE =~ &quot;Win2003&quot; ]] ; then
+	vol.py ${VOLATILITY_ARGS} connections &gt;${OUTPUT_LOCATION}/connections_output &amp;&amp; vol.py ${VOLATILITY_ARGS} connscan &gt;${OUTPUT_LOCATION}/connscan_output &amp;&amp; vol.py ${VOLATILITY_ARGS} sockets &gt;${OUTPUT_LOCATION}/sockets_output &amp;&amp; vol.py ${VOLATILITY_ARGS} sockscan &gt;${OUTPUT_LOCATION}/sockscan_output;
+elif [[ $VOLATILITY_PROFILE =~ &quot;Win&quot; ]] ; then
+	vol.py ${VOLATILITY_ARGS} netscan &gt;${OUTPUT_LOCATION}/netscan_output;
+else
+	echo &quot;Unsupported Memory Image Profile to Review Network Artifacts&quot;;
+fi</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

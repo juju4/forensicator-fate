@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
-  <description></description>
+  <description>Volatility - Step 3 - Review Network Artifacts</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
@@ -11,28 +11,33 @@
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
-          <name>ELK_IP</name>
-          <description>The IP address of the server with the Elasticsearch, Logstash, Kibana (ELK) stack.</description>
+          <name>MEMORY_IMAGE_FILE</name>
+          <description>Location of the raw memory image.</description>
           <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
-          <name>TIMEZONE</name>
-          <description>Timezone of the target machine, not the examiner&apos;s.</description>
+          <name>VOLATILITY_LOCATION</name>
+          <description>Specify the location of the memory image to analyse.</description>
+          <defaultValue>file://${MEMORY_IMAGE_FILE}</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>VOLATILITY_PROFILE</name>
+          <description>Specify the profile of the memory image to analyse.</description>
           <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>CASE_NAME</name>
-          <description>Name of the case - used to build the output path.</description>
+          <description>Name of the case - used to build output paths.</description>
           <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>OUTPUT_LOCATION</name>
-          <description>Location of the evidence processing output</description>
+          <description>Specify the location of the memory image to analyse.</description>
           <defaultValue>/artifacts/${CASE_NAME}</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
-          <name>PLASOEXPORT_ARGS</name>
-          <description>Special arguments to pass to plaso export to elk commandline (psort.py)</description>
+          <name>VOLATILITY_ARGS</name>
+          <description>Specify extra arguments to pass to volatility</description>
           <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
@@ -44,10 +49,16 @@
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers/>
-  <concurrentBuild>false</concurrentBuild>
+  <concurrentBuild>true</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>psort.py -z$TIMEZONE -o elastic --server ${ELK_IP} --index_name ${CASE_NAME} ${PLASOEXPORT_ARGS} ${OUTPUT_LOCATION}/plaso.dump</command>
+      <command>set -x
+if [[ ! -d $OUTPUT_LOCATION ]]; then mkdir $OUTPUT_LOCATION || true; fi
+
+vol.py ${VOLATILITY_ARGS} linux_netstat &gt;${OUTPUT_LOCATION}/linux_netstat_output;
+vol.py ${VOLATILITY_ARGS} linux_arp &gt;${OUTPUT_LOCATION}/linux_arp_output;
+vol.py ${VOLATILITY_ARGS} linux_route_cache &gt;${OUTPUT_LOCATION}/linux_route_cache_output;
+</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

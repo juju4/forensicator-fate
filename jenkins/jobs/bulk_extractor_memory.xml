@@ -4,6 +4,10 @@
   <description></description>
   <keepDependencies>false</keepDependencies>
   <properties>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
@@ -43,9 +47,10 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>if [[ ! -d $OUTPUT_LOCATION ]]; then mkdir $OUTPUT_LOCATION; fi
-if [[ ! -f $KEYWORDS_FILE ]]; then touch $KEYWORDS_FILE; fi
-bulk_extractor -F $KEYWORDS_FILE -e net -e aes -e wordlist -o $MEMORY_ARTIFACTS $MEMORY_IMAGE_FILE</command>
+      <command>if [ ! -d &quot;$OUTPUT_LOCATION&quot; ]; then mkdir $OUTPUT_LOCATION; fi
+if [ ! -d &quot;${KEYWORDS_FILE%/*}&quot; ]; then mkdir ${KEYWORDS_FILE%/*}; fi
+if [ ! -f &quot;$KEYWORDS_FILE&quot; ]; then touch $KEYWORDS_FILE; fi
+bulk_extractor -F &quot;$KEYWORDS_FILE&quot; -e net -e aes -e wordlist -o &quot;$MEMORY_ARTIFACTS&quot; &quot;$MEMORY_IMAGE_FILE&quot;</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

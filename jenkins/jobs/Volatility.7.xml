@@ -31,6 +31,11 @@
           <description>Location of the evidence processing output.</description>
           <defaultValue>/artifacts/{CASE_NAME}</defaultValue>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>VOLATILITY_ARGS</name>
+          <description>Specify extra arguments to pass to volatility</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
@@ -43,9 +48,9 @@
   <concurrentBuild>true</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>if [[ ! -d $OUTPUT_LOCATION ]]; then mkdir $OUTPUT_LOCATION; fi
-vol.py hivelist &gt;${OUTPUT_LOCATION}/hivelist_output
-vol.py userassist &gt;${OUTPUT_LOCATION}/userassist_output</command>
+      <command>if [[ ! -d $OUTPUT_LOCATION ]]; then mkdir $OUTPUT_LOCATION || true; fi
+vol.py ${VOLATILITY_ARGS} hivelist &gt;${OUTPUT_LOCATION}/hivelist_output
+vol.py ${VOLATILITY_ARGS} userassist &gt;${OUTPUT_LOCATION}/userassist_output</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
-  <description>Volatility - Step 5 - Check for Signs of a Rootkit</description>
+  <description>Volatility - Step 2 - Analyze Process DLLs and Handles</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
           <name>MEMORY_IMAGE_FILE</name>
-          <description>Location of the raw memory image</description>
+          <description>Pat of the raw memory image.</description>
           <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
@@ -23,12 +23,12 @@
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>CASE_NAME</name>
-          <description>Name of the case - used for building output paths</description>
+          <description>Name of the case - used to build output paths.</description>
           <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>OUTPUT_LOCATION</name>
-          <description>Location of the evidence processing output.</description>
+          <description>Location of the evidence processing output</description>
           <defaultValue>/artifacts/${CASE_NAME}</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
@@ -49,12 +49,17 @@
   <builders>
     <hudson.tasks.Shell>
       <command>if [[ ! -d $OUTPUT_LOCATION ]]; then mkdir $OUTPUT_LOCATION || true; fi
-vol.py ${VOLATILITY_ARGS} psxview &gt;${OUTPUT_LOCATION}/psxview_output
-vol.py ${VOLATILITY_ARGS} modscan &gt;${OUTPUT_LOCATION}/modscan_output
-vol.py ${VOLATILITY_ARGS} apihooks &gt;${OUTPUT_LOCATION}/apihooks_output
-vol.py ${VOLATILITY_ARGS} ssdt &gt;${OUTPUT_LOCATION}/ssdt_output
-vol.py ${VOLATILITY_ARGS} driverirp &gt;${OUTPUT_LOCATION}/driverirp_output
-vol.py ${VOLATILITY_ARGS} idt &gt;${OUTPUT_LOCATION}/idt_output</command>
+vol.py ${VOLATILITY_ARGS} linux_lsof &gt;${OUTPUT_LOCATION}/linux_lsof_output
+vol.py ${VOLATILITY_ARGS} linux_bash &gt;${OUTPUT_LOCATION}/linux_bash_output
+
+#vol.py dlllist &gt;${OUTPUT_LOCATION}/dlllist_output
+#vol.py getsids &gt;${OUTPUT_LOCATION}/getsids_output
+#vol.py handles &gt;${OUTPUT_LOCATION}/handles_output
+#vol.py filescan &gt;${OUTPUT_LOCATION}/filescan_output
+#vol.py mutantscan &gt;${OUTPUT_LOCATION}/mutantscan_output
+#vol.py svcscan &gt;${OUTPUT_LOCATION}/svcscan_output
+#vol.py cmdscan &gt;${OUTPUT_LOCATION}/cmdscan_output
+#vol.py consoles &gt;${OUTPUT_LOCATION}/consoles_output</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

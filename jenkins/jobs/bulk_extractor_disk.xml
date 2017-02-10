@@ -4,6 +4,10 @@
   <description></description>
   <keepDependencies>false</keepDependencies>
   <properties>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
@@ -21,6 +25,16 @@
           <description></description>
           <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>OUTPUT_LOCATION</name>
+          <description>Location of the evidence processing output</description>
+          <defaultValue>/artifacts/${CASE_NAME}</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>CASE_NAME</name>
+          <description></description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
@@ -34,6 +48,7 @@
   <builders>
     <hudson.tasks.Shell>
       <command>if [[ ! -d $OUTPUT_LOCATION ]]; then mkdir $OUTPUT_LOCATION; fi
+if [[ ! -d &quot;${KEYWORDS_FILE%/*}&quot; ]]; then mkdir &quot;${KEYWORDS_FILE%/*}&quot;; fi
 if [[ ! -f $KEYWORDS_FILE ]]; then touch $KEYWORDS_FILE; fi
 bulk_extractor -F $KEYWORDS_FILE -o $DISK_ARTIFACTS $DISK_IMAGE_FILE</command>
     </hudson.tasks.Shell>

@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>Perform a Rekall Memory Analysis (Win)</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>MEMORY_IMAGE_FILE</name>
+          <description>Pat of the raw memory image.</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>REKALL_PROFILE</name>
+          <description>Specify the profile of the memory image to analyse.</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>CASE_NAME</name>
+          <description>Name of the case - used to build output paths.</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>OUTPUT_LOCATION</name>
+          <description>Location of the evidence processing output</description>
+          <defaultValue>/artifacts/${CASE_NAME}</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>REKALL_ARGS</name>
+          <description>Specify extra arguments to pass to volatility</description>
+          <defaultValue>-f ${MEMORY_IMAGE_FILE} </defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>true</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>if [[ ! -d $OUTPUT_LOCATION ]]; then mkdir $OUTPUT_LOCATION || true; fi
+## 1
+rekall ${REKALL_ARGS} pslist &gt;${OUTPUT_LOCATION}/pslist_output
+rekall ${REKALL_ARGS} psscan &gt;${OUTPUT_LOCATION}/psscan_output
+rekall ${REKALL_ARGS} pstree &gt;${OUTPUT_LOCATION}/pstree_output
+## 2
+rekall ${REKALL_ARGS} dlllist &gt;${OUTPUT_LOCATION}/dlllist_output
+#rekall ${REKALL_ARGS} getsids &gt;${OUTPUT_LOCATION}/getsids_output
+rekall ${REKALL_ARGS} handles &gt;${OUTPUT_LOCATION}/handles_output
+rekall ${REKALL_ARGS} filescan &gt;${OUTPUT_LOCATION}/filescan_output
+rekall ${REKALL_ARGS} mutantscan &gt;${OUTPUT_LOCATION}/mutantscan_output
+rekall ${REKALL_ARGS} svcscan &gt;${OUTPUT_LOCATION}/svcscan_output
+rekall ${REKALL_ARGS} cmdscan &gt;${OUTPUT_LOCATION}/cmdscan_output
+rekall ${REKALL_ARGS} consoles &gt;${OUTPUT_LOCATION}/consoles_output
+## 3 (depending on profile...)
+#rekall ${REKALL_ARGS} connscan &gt;${OUTPUT_LOCATION}/connscan_output;
+#rekall ${REKALL_ARGS} sockets &gt;${OUTPUT_LOCATION}/sockets_output;
+#rekall ${REKALL_ARGS} netscan &gt;${OUTPUT_LOCATION}/netscan_output;
+## 4
+## Dumping commands seems to require a pid...
+#rekall ${REKALL_ARGS} malfind --dump-dir ${OUTPUT_LOCATION} &gt;${OUTPUT_LOCATION}/malfind_output
+rekall ${REKALL_ARGS} ldrmodules -v &gt; ${OUTPUT_LOCATION}/ldrmodules_output
+## 5
+rekall ${REKALL_ARGS} psxview &gt;${OUTPUT_LOCATION}/psxview_output
+rekall ${REKALL_ARGS} modscan &gt;${OUTPUT_LOCATION}/modscan_output
+#rekall ${REKALL_ARGS} apihooks &gt;${OUTPUT_LOCATION}/apihooks_output
+rekall ${REKALL_ARGS} ssdt &gt;${OUTPUT_LOCATION}/ssdt_output
+rekall ${REKALL_ARGS} driverirp &gt;${OUTPUT_LOCATION}/driverirp_output
+#rekall ${REKALL_ARGS} idt &gt;${OUTPUT_LOCATION}/idt_output
+## 6
+#rekall ${REKALL_ARGS} dlldump --dump-dir ${REKALL_OUTPUT_LOCATION} &gt;${OUTPUT_LOCATION}/dlldump_output
+#rekall ${REKALL_ARGS} moddump --dump-dir ${REKALL_OUTPUT_LOCATION} &gt;${OUTPUT_LOCATION}/moddump_output
+#rekall ${REKALL_ARGS} procdump --dump-dir ${REKALL_OUTPUT_LOCATION} &gt;${OUTPUT_LOCATION}/procdump_output
+#rekall ${REKALL_ARGS} memdump --dump-dir ${REKALL_OUTPUT_LOCATION} &gt;${OUTPUT_LOCATION}/memdump_output
+## 7
+#rekall ${REKALL_ARGS} hivelist &gt;${OUTPUT_LOCATION}/hivelist_output
+rekall ${REKALL_ARGS} userassist &gt;${OUTPUT_LOCATION}/userassist_output
+## 8
+#rekall ${REKALL_ARGS} timeliner --output=body &gt;${OUTPUT_LOCATION}/timeliner_bodyfile_output
+</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>

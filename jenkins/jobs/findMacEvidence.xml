@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
-  <description>The Forensicator Pro &quot;Find Evidence&quot; Button as a Jenkins job - but only for Windows.</description>
+  <description>The Forensicator Pro &quot;Find Evidence&quot; Button as a Jenkins job - Mac</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
@@ -43,7 +43,7 @@
         <hudson.model.StringParameterDefinition>
           <name>DISK_NAME</name>
           <description>Name of the disk for timeline output</description>
-          <defaultValue>C:</defaultValue>
+          <defaultValue>/</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>TIMEZONE</name>
@@ -101,7 +101,7 @@
               <configs>
                 <hudson.plugins.parameterizedtrigger.CurrentBuildParameters/>
               </configs>
-              <projects>Volatility,bulk_extractor_memory</projects>
+              <projects>VolatilityMac,bulk_extractor_memory</projects>
               <condition>ALWAYS</condition>
               <triggerWithNoParameters>false</triggerWithNoParameters>
               <block>

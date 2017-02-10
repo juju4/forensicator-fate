@@ -31,6 +31,11 @@
           <description>Location for volatility output.</description>
           <defaultValue>/artifacts/${CASE_NAME}</defaultValue>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>VOLATILITY_ARGS</name>
+          <description>Specify extra arguments to pass to volatility</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
@@ -44,9 +49,9 @@
   <builders>
     <hudson.tasks.Shell>
       <command>if [[ ! -d $OUTPUT_LOCATION ]]; then mkdir $OUTPUT_LOCATION; fi
-vol.py pslist &gt;${OUTPUT_LOCATION}/pslist_output
-vol.py psscan &gt;${OUTPUT_LOCATION}/psscan_output
-vol.py pstree &gt;${OUTPUT_LOCATION}/pstree_output</command>
+vol.py ${VOLATILITY_ARGS} pslist &gt;${OUTPUT_LOCATION}/pslist_output
+vol.py ${VOLATILITY_ARGS} psscan &gt;${OUTPUT_LOCATION}/psscan_output
+vol.py ${VOLATILITY_ARGS} pstree &gt;${OUTPUT_LOCATION}/pstree_output</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

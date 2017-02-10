@@ -4,6 +4,10 @@
   <description>Runs blkls to collect unallocated storage, then determines the cluster size from the disk image with fsstat, then runs foremost with the appropriate parameters to carve out deleted files.</description>
   <keepDependencies>false</keepDependencies>
   <properties>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
@@ -46,7 +50,12 @@
       <command>if [[ ! -d $OUTPUT_LOCATION ]]; then mkdir $OUTPUT_LOCATION; fi
 blkls $DISK_IMAGE_FILE &gt;$UNALLOCATED_STORAGE_FILE
 CLUSTER_SIZE=`fsstat $DISK_IMAGE_FILE | awk &apos;/Cluster Size: /{print $3}&apos;`
-foremost -q -b $CLUSTER_SIZE -o $FOREMOST_OUTPUT $UNALLOCATED_STORAGE_FILE</command>
+if [ -n &quot;$CLUSTER_SIZE&quot; ]; then
+  farg=&quot;-b $CLUSTER_SIZE&quot;
+else
+  farg=&quot;&quot;
+fi
+foremost -q $farg -o $FOREMOST_OUTPUT $UNALLOCATED_STORAGE_FILE</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

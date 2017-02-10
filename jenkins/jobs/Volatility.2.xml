@@ -4,6 +4,10 @@
   <description>Volatility - Step 2 - Analyze Process DLLs and Handles</description>
   <keepDependencies>false</keepDependencies>
   <properties>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
@@ -31,6 +35,11 @@
           <description>Location of the evidence processing output</description>
           <defaultValue>/artifacts/${CASE_NAME}</defaultValue>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>VOLATILITY_ARGS</name>
+          <description>Specify extra arguments to pass to volatility</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
@@ -43,15 +52,15 @@
   <concurrentBuild>true</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>if [[ ! -d $OUTPUT_LOCATION ]]; then mkdir $OUTPUT_LOCATION; fi
-vol.py dlllist &gt;${OUTPUT_LOCATION}/dlllist_output
-vol.py getsids &gt;${OUTPUT_LOCATION}/getsids_output
-vol.py handles &gt;${OUTPUT_LOCATION}/handles_output
-vol.py filescan &gt;${OUTPUT_LOCATION}/filescan_output
-vol.py mutantscan &gt;${OUTPUT_LOCATION}/mutantscan_output
-vol.py svcscan &gt;${OUTPUT_LOCATION}/svcscan_output
-vol.py cmdscan &gt;${OUTPUT_LOCATION}/cmdscan_output
-vol.py consoles &gt;${OUTPUT_LOCATION}/consoles_output</command>
+      <command>if [[ ! -d $OUTPUT_LOCATION ]]; then mkdir $OUTPUT_LOCATION || true; fi
+vol.py ${VOLATILITY_ARGS} dlllist &gt;${OUTPUT_LOCATION}/dlllist_output
+vol.py ${VOLATILITY_ARGS} getsids &gt;${OUTPUT_LOCATION}/getsids_output
+vol.py ${VOLATILITY_ARGS} handles &gt;${OUTPUT_LOCATION}/handles_output
+vol.py ${VOLATILITY_ARGS} filescan &gt;${OUTPUT_LOCATION}/filescan_output
+vol.py ${VOLATILITY_ARGS} mutantscan &gt;${OUTPUT_LOCATION}/mutantscan_output
+vol.py ${VOLATILITY_ARGS} svcscan &gt;${OUTPUT_LOCATION}/svcscan_output
+vol.py ${VOLATILITY_ARGS} cmdscan &gt;${OUTPUT_LOCATION}/cmdscan_output
+vol.py ${VOLATILITY_ARGS} consoles &gt;${OUTPUT_LOCATION}/consoles_output</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

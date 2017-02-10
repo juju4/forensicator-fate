@@ -4,6 +4,10 @@
   <description>Create a filesystem timeline with fls and mactime for analysis</description>
   <keepDependencies>false</keepDependencies>
   <properties>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
@@ -31,6 +35,11 @@
           <description>Timezone of the system under analysis</description>
           <defaultValue>EST5EDT</defaultValue>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>SLEUTHKIT_ARGS</name>
+          <description>Special arguments to pass to fls and sorter like offset eg &apos;-o 64&apos;</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
@@ -44,7 +53,7 @@
   <builders>
     <hudson.tasks.Shell>
       <command>if [[ ! -d $OUTPUT_LOCATION ]]; then mkdir $OUTPUT_LOCATION; fi
-fls -r -m $DISK_NAME $DISK_IMAGE_FILE &gt;${OUTPUT_LOCATION}/bodyfile  &amp;&amp; mactime -d -b ${OUTPUT_LOCATION}/bodyfile -z $TIMEZONE &gt;${OUTPUT_LOCATION}/fs-timeline.csv</command>
+fls -r -m $DISK_NAME ${SLEUTHKIT_ARGS} $DISK_IMAGE_FILE &gt;${OUTPUT_LOCATION}/bodyfile  &amp;&amp; mactime -d -b ${OUTPUT_LOCATION}/bodyfile -z $TIMEZONE &gt;${OUTPUT_LOCATION}/fs-timeline.csv</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

@@ -4,8 +4,17 @@
   <description></description>
   <keepDependencies>false</keepDependencies>
   <properties>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>OUTPUT_LOCATION</name>
+          <description>Location of the evidence processing output</description>
+          <defaultValue>/artifacts/${CASE_NAME}</defaultValue>
+        </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>DISK_IMAGE_FILE</name>
           <description></description>
@@ -31,6 +40,16 @@
           <description>A list of hashes of files we trust.</description>
           <defaultValue>/whitelist/known_good_files.txt</defaultValue>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>CASE_NAME</name>
+          <description>Name of the case - used to build output paths.</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>SLEUTHKIT_ARGS</name>
+          <description>Special arguments to pass to fls and sorter like offset eg &apos;-o 64&apos;</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
@@ -42,17 +61,26 @@
   <triggers/>
   <concurrentBuild>false</concurrentBuild>
   <builders>
+    <org.jenkinsci.plugins.conditionalbuildstep.singlestep.SingleConditionalBuilder plugin="conditional-buildstep@1.3.5">
+      <condition class="org.jenkins_ci.plugins.run_condition.core.ExpressionCondition" plugin="run-condition@1.0">
+        <expression>^$</expression>
+        <label>${CASE_NAME}</label>
+      </condition>
+      <buildStep class="hudson.tasks.Shell">
+        <command>false</command>
+      </buildStep>
+      <runner class="org.jenkins_ci.plugins.run_condition.BuildStepRunner$Fail" plugin="run-condition@1.0"/>
+    </org.jenkinsci.plugins.conditionalbuildstep.singlestep.SingleConditionalBuilder>
     <hudson.tasks.Shell>
       <command>if [[ ! -d $OUTPUT_LOCATION ]]; then mkdir $OUTPUT_LOCATION; fi
 if  [[ ! -d $SORTER_ARTIFACTS ]] ; then
 mkdir $SORTER_ARTIFACTS
 fi
 if [[ -f /whitelist/NSRLFile.txt ]]; then
-sorter -s -h -n /whitelist/NSRLFile.txt -a $BLACKLIST -x $WHITELIST -m ${DISK_NAME} -d $SORTER_ARTIFACTS $DISK_IMAGE_FILE
+sorter -s -h -n /whitelist/NSRLFile.txt -a $BLACKLIST -x $WHITELIST -m ${DISK_NAME} -d $SORTER_ARTIFACTS ${SLEUTHKIT_ARGS} $DISK_IMAGE_FILE
 else
-sorter -s -h -a $BLACKLIST -x $WHITELIST -m ${DISK_NAME} -d $SORTER_ARTIFACTS $DISK_IMAGE_FILE
+sorter -s -h -a $BLACKLIST -x $WHITELIST -m ${DISK_NAME} -d $SORTER_ARTIFACTS ${SLEUTHKIT_ARGS} $DISK_IMAGE_FILE
 fi</command>
-
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

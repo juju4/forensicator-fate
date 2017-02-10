@@ -31,6 +31,11 @@
           <description>Specify the location of the memory image to analyse.</description>
           <defaultValue>/artifacts/${CASE_NAME}</defaultValue>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>VOLATILITY_ARGS</name>
+          <description>Specify extra arguments to pass to volatility</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
@@ -44,8 +49,8 @@
   <builders>
     <hudson.tasks.Shell>
       <command>if [[ ! -d $OUTPUT_LOCATION ]]; then mkdir $OUTPUT_LOCATION; fi
-vol.py malfind --dump-dir ${OUTPUT_LOCATION} &gt;${OUTPUT_LOCATION}/malfind_output
-vol.py ldrmodules -v &gt; ${OUTPUT_LOCATION}/ldrmodules_output</command>
+vol.py ${VOLATILITY_ARGS} malfind --dump-dir ${OUTPUT_LOCATION} &gt;${OUTPUT_LOCATION}/malfind_output
+vol.py ${VOLATILITY_ARGS} ldrmodules -v &gt; ${OUTPUT_LOCATION}/ldrmodules_output</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>
