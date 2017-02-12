@@ -35,6 +35,16 @@
           <description></description>
           <defaultValue>${OUTPUT_LOCATION}/foremost</defaultValue>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>BLKLS_ARGS</name>
+          <description>Special arguments to pass to blkls like offset eg &apos;-o 64&apos;</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>FOREMOST_ARGS</name>
+          <description>Special arguments to pass to foremost</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
@@ -48,14 +58,14 @@
   <builders>
     <hudson.tasks.Shell>
       <command>if [[ ! -d $OUTPUT_LOCATION ]]; then mkdir $OUTPUT_LOCATION; fi
-blkls $DISK_IMAGE_FILE &gt;$UNALLOCATED_STORAGE_FILE
+blkls ${BLKLS_ARGS} $DISK_IMAGE_FILE &gt;$UNALLOCATED_STORAGE_FILE
 CLUSTER_SIZE=`fsstat $DISK_IMAGE_FILE | awk &apos;/Cluster Size: /{print $3}&apos;`
 if [ -n &quot;$CLUSTER_SIZE&quot; ]; then
   farg=&quot;-b $CLUSTER_SIZE&quot;
 else
   farg=&quot;&quot;
 fi
-foremost -q $farg -o $FOREMOST_OUTPUT $UNALLOCATED_STORAGE_FILE</command>
+foremost ${FOREMOST_ARGS} -q $farg -o $FOREMOST_OUTPUT $UNALLOCATED_STORAGE_FILE</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>
