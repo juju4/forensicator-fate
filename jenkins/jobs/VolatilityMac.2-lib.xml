@@ -54,16 +54,9 @@ vol.py ${VOLATILITY_ARGS} mac_list_files &gt;${OUTPUT_LOCATION}/mac_list_files_o
 vol.py ${VOLATILITY_ARGS} mac_dyld_maps &gt;${OUTPUT_LOCATION}/mac_dyld_maps_output
 
 vol.py ${VOLATILITY_ARGS} mac_bash &gt;${OUTPUT_LOCATION}/mac_bash_output
-vol.py ${VOLATILITY_ARGS} mac_bash_env &gt;${OUTPUT_LOCATION}/mac_bash_env_output
+vol.py ${VOLATILITY_ARGS} mac_psenv &gt;${OUTPUT_LOCATION}/mac_psenv_output
 vol.py ${VOLATILITY_ARGS} mac_bash_hash &gt;${OUTPUT_LOCATION}/mac_bash_hash_output
-
-#vol.py getsids &gt;${OUTPUT_LOCATION}/getsids_output
-#vol.py handles &gt;${OUTPUT_LOCATION}/handles_output
-#vol.py filescan &gt;${OUTPUT_LOCATION}/filescan_output
-#vol.py mutantscan &gt;${OUTPUT_LOCATION}/mutantscan_output
-#vol.py svcscan &gt;${OUTPUT_LOCATION}/svcscan_output
-#vol.py cmdscan &gt;${OUTPUT_LOCATION}/cmdscan_output
-#vol.py consoles &gt;${OUTPUT_LOCATION}/consoles_output</command>
+</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

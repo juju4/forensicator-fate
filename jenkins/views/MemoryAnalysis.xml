@@ -27,6 +27,8 @@
     <string>VolatilityMac.3-net</string>
     <string>VolatilityMac.4-injection</string>
     <string>Rekall</string>
+    <string>RekallLinux</string>
+    <string>RekallMac</string>
   </jobNames>
   <jobFilters/>
   <columns>
