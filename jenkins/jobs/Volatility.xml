@@ -87,7 +87,7 @@
               <onlyExactRuns>false</onlyExactRuns>
             </hudson.plugins.parameterizedtrigger.FileBuildParameters>
           </configs>
-          <projects>Volatility.1,Volatility.2,Volatility.3,Volatility.4,Volatility.5,Volatility.6,Volatility.7,Volatility.8</projects>
+          <projects>Volatility.1,Volatility.2,Volatility.3,Volatility.4,Volatility.5,Volatility.6,Volatility.7,Volatility.8,Volatility.9-community</projects>
           <condition>ALWAYS</condition>
           <triggerWithNoParameters>false</triggerWithNoParameters>
           <block>

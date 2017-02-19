@@ -1,16 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
-  <description>Volatility - Step 4 - Look for Evidence of Code Injection</description>
+  <description>Volatility - Step 8 - Memory Timelining</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
-        <hudson.model.StringParameterDefinition>
-          <name>MEMORY_IMAGE_FILE</name>
-          <description>Location of the raw memory image</description>
-          <defaultValue></defaultValue>
-        </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>VOLATILITY_LOCATION</name>
           <description>Specify the location of the memory image to analyse.</description>
@@ -22,13 +17,18 @@
           <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
+          <name>MEMORY_IMAGE_FILE</name>
+          <description>Location of the raw memory image.</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
           <name>CASE_NAME</name>
           <description>Name of the case - used to build output paths.</description>
           <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>OUTPUT_LOCATION</name>
-          <description>Specify the location of the memory image to analyse.</description>
+          <description>Location of the evidence processing output.</description>
           <defaultValue>/artifacts/${CASE_NAME}</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
@@ -49,9 +49,13 @@
   <builders>
     <hudson.tasks.Shell>
       <command>if [[ ! -d $OUTPUT_LOCATION ]]; then mkdir $OUTPUT_LOCATION || true; fi
-#vol.py ${VOLATILITY_ARGS} mac_malfind --dump-dir ${OUTPUT_LOCATION} &gt;${OUTPUT_LOCATION}/mac_malfind_output
-vol.py ${VOLATILITY_ARGS} mac_malfind &gt;${OUTPUT_LOCATION}/mac_malfind_output
-vol.py ${VOLATILITY_ARGS} mac_ldrmodules -v &gt; ${OUTPUT_LOCATION}/mac_ldrmodules_output</command>
+vol.py ${VOLATILITY_ARGS} --plugins /usr/local/share/volatility/volatilityplugins/community/TomSpencer/ usnparser --output=csv --output-file=${OUTPUT_LOCATION}/usn.csv &gt;${OUTPUT_LOCATION}/usnparser_output
+vol.py ${VOLATILITY_ARGS} --plugins /usr/local/share/volatility/volatilityplugins/volatility-autoruns/ autoruns &gt;${OUTPUT_LOCATION}/autoruns_output
+vol.py ${VOLATILITY_ARGS} --plugins /usr/local/share/volatility/volatilityplugins/community/FrancescoPicasso/ mimikatz &gt;${OUTPUT_LOCATION}/mimikatz_output
+vol.py ${VOLATILITY_ARGS} --plugins /usr/local/share/volatility/volatilityplugins/community/DaveLasalle/ firefoxhistory --output=csv --output-file=${OUTPUT_LOCATION}/firefoxhistory.csv &gt;${OUTPUT_LOCATION}/firefoxhistory_output
+vol.py ${VOLATILITY_ARGS} --plugins /usr/local/share/volatility/volatilityplugins/community/DaveLasalle/ chromehistory --output=csv --output-file=${OUTPUT_LOCATION}/chromehistory.csv &gt;${OUTPUT_LOCATION}/chromehistory_output
+vol.py ${VOLATILITY_ARGS} --plugins /usr/local/share/volatility/volatilityplugins/community/DaveLasalle/ prefetch &gt;${OUTPUT_LOCATION}/prefetch_output
+</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

@@ -62,7 +62,7 @@ vol.py ${VOLATILITY_ARGS} mac_dead_sockets &gt;${OUTPUT_LOCATION}/mac_dead_socke
 vol.py ${VOLATILITY_ARGS} mac_route &gt;${OUTPUT_LOCATION}/mac_route_output;
 vol.py ${VOLATILITY_ARGS} mac_arp &gt;${OUTPUT_LOCATION}/mac_arp_output;
 ## ipfw to pf?
-vol.py ${VOLATILITY_ARGS} mac_ip_filter &gt;${OUTPUT_LOCATION}/mac_ip_filter_output;
+vol.py ${VOLATILITY_ARGS} mac_ip_filters &gt;${OUTPUT_LOCATION}/mac_ip_filters_output;
 </command>
     </hudson.tasks.Shell>
   </builders>
