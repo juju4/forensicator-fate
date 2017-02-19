@@ -51,7 +51,10 @@
       <command>if [[ ! -d $OUTPUT_LOCATION ]]; then mkdir $OUTPUT_LOCATION; fi
 vol.py ${VOLATILITY_ARGS} pslist &gt;${OUTPUT_LOCATION}/pslist_output
 vol.py ${VOLATILITY_ARGS} psscan &gt;${OUTPUT_LOCATION}/psscan_output
-vol.py ${VOLATILITY_ARGS} pstree &gt;${OUTPUT_LOCATION}/pstree_output</command>
+vol.py ${VOLATILITY_ARGS} pstree &gt;${OUTPUT_LOCATION}/pstree_output
+vol.py ${VOLATILITY_ARGS} psscan --output=dot --output-file=${OUTPUT_LOCATION}/psscan_output.dot
+dot -Tpng ${OUTPUT_LOCATION}/psscan_output.dot -o ${OUTPUT_LOCATION}/psscan_output.png
+</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

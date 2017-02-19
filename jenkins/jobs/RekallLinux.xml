@@ -51,7 +51,7 @@ rekall ${REKALL_ARGS} psaux &gt;${OUTPUT_LOCATION}/psaux_output
 rekall ${REKALL_ARGS} psxview &gt;${OUTPUT_LOCATION}/psxview_output
 ## 2
 rekall ${REKALL_ARGS} lsof &gt;${OUTPUT_LOCATION}/lsof_output
-rekall ${REKALL_ARGS} handles &gt;${OUTPUT_LOCATION}/handles_output
+#rekall ${REKALL_ARGS} handles &gt;${OUTPUT_LOCATION}/handles_output
 ## 3 (depending on profile...)
 rekall ${REKALL_ARGS} arp &gt;${OUTPUT_LOCATION}/arp_output;
 rekall ${REKALL_ARGS} ifconfig &gt;${OUTPUT_LOCATION}/ifconfig_output;
@@ -59,7 +59,7 @@ rekall ${REKALL_ARGS} check_afinfo &gt;${OUTPUT_LOCATION}/check_afinfo_output;
 ## 4
 ## Dumping commands seems to require a pid...
 #rekall ${REKALL_ARGS} malfind --dump-dir ${OUTPUT_LOCATION} &gt;${OUTPUT_LOCATION}/malfind_output
-rekall ${REKALL_ARGS} ldrmodules -v &gt; ${OUTPUT_LOCATION}/ldrmodules_output
+#rekall ${REKALL_ARGS} ldrmodules -v &gt; ${OUTPUT_LOCATION}/ldrmodules_output
 ## other
 rekall ${REKALL_ARGS} dmesg &gt;${OUTPUT_LOCATION}/dmesg_output
 rekall ${REKALL_ARGS} cpuinfo &gt;${OUTPUT_LOCATION}/cpuinfo_output
@@ -70,13 +70,13 @@ rekall ${REKALL_ARGS} check_creds &gt;${OUTPUT_LOCATION}/check_creds_output
 rekall ${REKALL_ARGS} check_idt &gt;${OUTPUT_LOCATION}/check_idt_output
 rekall ${REKALL_ARGS} check_modules &gt;${OUTPUT_LOCATION}/check_modules_output
 rekall ${REKALL_ARGS} check_syscall &gt;${OUTPUT_LOCATION}/check_syscall_output
-rekall ${REKALL_ARGS} check_ttys &gt;${OUTPUT_LOCATION}/check_ttys_output
+#rekall ${REKALL_ARGS} check_ttys &gt;${OUTPUT_LOCATION}/check_ttys_output
 rekall ${REKALL_ARGS} iomem &gt;${OUTPUT_LOCATION}/iomem_output
 rekall ${REKALL_ARGS} lsmod &gt;${OUTPUT_LOCATION}/lsmod_output
 rekall ${REKALL_ARGS} maps &gt;${OUTPUT_LOCATION}/maps_output
 rekall ${REKALL_ARGS} mount &gt;${OUTPUT_LOCATION}/mount_output
 rekall ${REKALL_ARGS} notifier_chains &gt;${OUTPUT_LOCATION}/notifier_chains_output
-rekall ${REKALL_ARGS} pkt_queues --dump-dir ${REKALL_OUTPUT_LOCATION} &gt;${OUTPUT_LOCATION}/pkt_queues_output
+rekall ${REKALL_ARGS} pkt_queues &gt;${OUTPUT_LOCATION}/pkt_queues_output
 rekall ${REKALL_ARGS} vaddump &gt;${OUTPUT_LOCATION}/vaddump_output
 </command>
     </hudson.tasks.Shell>
