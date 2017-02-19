@@ -43,44 +43,34 @@
   <builders>
     <hudson.tasks.Shell>
       <command>if [[ ! -d $OUTPUT_LOCATION ]]; then mkdir $OUTPUT_LOCATION || true; fi
+## http://www.rekall-forensic.com/docs/Manual/Plugins/OSX/
 ## 1
 rekall ${REKALL_ARGS} pslist &gt;${OUTPUT_LOCATION}/pslist_output
-rekall ${REKALL_ARGS} psscan &gt;${OUTPUT_LOCATION}/psscan_output
 rekall ${REKALL_ARGS} pstree &gt;${OUTPUT_LOCATION}/pstree_output
+rekall ${REKALL_ARGS} psaux &gt;${OUTPUT_LOCATION}/psaux_output
+rekall ${REKALL_ARGS} psxview &gt;${OUTPUT_LOCATION}/psxview_output
 ## 2
-rekall ${REKALL_ARGS} dlllist &gt;${OUTPUT_LOCATION}/dlllist_output
-#rekall ${REKALL_ARGS} getsids &gt;${OUTPUT_LOCATION}/getsids_output
+rekall ${REKALL_ARGS} lsof &gt;${OUTPUT_LOCATION}/lsof_output
 rekall ${REKALL_ARGS} handles &gt;${OUTPUT_LOCATION}/handles_output
-rekall ${REKALL_ARGS} filescan &gt;${OUTPUT_LOCATION}/filescan_output
-rekall ${REKALL_ARGS} mutantscan &gt;${OUTPUT_LOCATION}/mutantscan_output
-rekall ${REKALL_ARGS} svcscan &gt;${OUTPUT_LOCATION}/svcscan_output
-rekall ${REKALL_ARGS} cmdscan &gt;${OUTPUT_LOCATION}/cmdscan_output
-rekall ${REKALL_ARGS} consoles &gt;${OUTPUT_LOCATION}/consoles_output
 ## 3 (depending on profile...)
-#rekall ${REKALL_ARGS} connscan &gt;${OUTPUT_LOCATION}/connscan_output;
-#rekall ${REKALL_ARGS} sockets &gt;${OUTPUT_LOCATION}/sockets_output;
-#rekall ${REKALL_ARGS} netscan &gt;${OUTPUT_LOCATION}/netscan_output;
+rekall ${REKALL_ARGS} netstat &gt;${OUTPUT_LOCATION}/netstat_output;
+rekall ${REKALL_ARGS} route &gt;${OUTPUT_LOCATION}/route_output;
+#rekall ${REKALL_ARGS} arp &gt;${OUTPUT_LOCATION}/arp_output;
+rekall ${REKALL_ARGS} ip_filters &gt;${OUTPUT_LOCATION}/ip_filters_output;
 ## 4
 ## Dumping commands seems to require a pid...
 #rekall ${REKALL_ARGS} malfind --dump-dir ${OUTPUT_LOCATION} &gt;${OUTPUT_LOCATION}/malfind_output
-rekall ${REKALL_ARGS} ldrmodules -v &gt; ${OUTPUT_LOCATION}/ldrmodules_output
-## 5
-rekall ${REKALL_ARGS} psxview &gt;${OUTPUT_LOCATION}/psxview_output
-rekall ${REKALL_ARGS} modscan &gt;${OUTPUT_LOCATION}/modscan_output
-#rekall ${REKALL_ARGS} apihooks &gt;${OUTPUT_LOCATION}/apihooks_output
-rekall ${REKALL_ARGS} ssdt &gt;${OUTPUT_LOCATION}/ssdt_output
-rekall ${REKALL_ARGS} driverirp &gt;${OUTPUT_LOCATION}/driverirp_output
-#rekall ${REKALL_ARGS} idt &gt;${OUTPUT_LOCATION}/idt_output
-## 6
-#rekall ${REKALL_ARGS} dlldump --dump-dir ${REKALL_OUTPUT_LOCATION} &gt;${OUTPUT_LOCATION}/dlldump_output
-#rekall ${REKALL_ARGS} moddump --dump-dir ${REKALL_OUTPUT_LOCATION} &gt;${OUTPUT_LOCATION}/moddump_output
-#rekall ${REKALL_ARGS} procdump --dump-dir ${REKALL_OUTPUT_LOCATION} &gt;${OUTPUT_LOCATION}/procdump_output
-#rekall ${REKALL_ARGS} memdump --dump-dir ${REKALL_OUTPUT_LOCATION} &gt;${OUTPUT_LOCATION}/memdump_output
-## 7
-#rekall ${REKALL_ARGS} hivelist &gt;${OUTPUT_LOCATION}/hivelist_output
-rekall ${REKALL_ARGS} userassist &gt;${OUTPUT_LOCATION}/userassist_output
-## 8
-#rekall ${REKALL_ARGS} timeliner --output=body &gt;${OUTPUT_LOCATION}/timeliner_bodyfile_output
+#rekall ${REKALL_ARGS} ldrmodules -v &gt; ${OUTPUT_LOCATION}/ldrmodules_output
+## other
+rekall ${REKALL_ARGS} dmesg &gt;${OUTPUT_LOCATION}/dmesg_output
+rekall ${REKALL_ARGS} boot_cmdline &gt;${OUTPUT_LOCATION}/boot_cmdline_output
+rekall ${REKALL_ARGS} check_syscalls &gt;${OUTPUT_LOCATION}/check_syscalls_output
+rekall ${REKALL_ARGS} lsmod &gt;${OUTPUT_LOCATION}/lsmod_output
+rekall ${REKALL_ARGS} machine_info &gt;${OUTPUT_LOCATION}/machine_info_output
+rekall ${REKALL_ARGS} maps &gt;${OUTPUT_LOCATION}/maps_output
+rekall ${REKALL_ARGS} mount &gt;${OUTPUT_LOCATION}/mount_output
+rekall ${REKALL_ARGS} notifiers &gt;${OUTPUT_LOCATION}/notifiers_output
+rekall ${REKALL_ARGS} sysctl &gt;${OUTPUT_LOCATION}/sysctl_output
 </command>
     </hudson.tasks.Shell>
   </builders>
