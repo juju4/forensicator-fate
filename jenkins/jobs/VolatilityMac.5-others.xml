@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>Volatility - Step 5 - Misc plugins (Mac)</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>MEMORY_IMAGE_FILE</name>
+          <description>Path of the memory image for volatility to analyse.</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>VOLATILITY_LOCATION</name>
+          <description>Specify the location of the memory image to analyse.</description>
+          <defaultValue>file://${MEMORY_IMAGE_FILE}</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>VOLATILITY_PROFILE</name>
+          <description>Specify the profile of the memory image to analyse.</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>CASE_NAME</name>
+          <description>Name of the case - used to build output paths.</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>OUTPUT_LOCATION</name>
+          <description>Location for volatility output.</description>
+          <defaultValue>/artifacts/${CASE_NAME}</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>VOLATILITY_ARGS</name>
+          <description>Specify extra arguments to pass to volatility</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>true</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>if [[ ! -d $OUTPUT_LOCATION ]]; then mkdir $OUTPUT_LOCATION || true; fi
+## https://github.com/volatilityfoundation/volatility/wiki/Mac%20Command%20Reference
+#vol.py ${VOLATILITY_ARGS} mac_apihooks &gt;${OUTPUT_LOCATION}/mac_apihooks_output
+vol.py ${VOLATILITY_ARGS} mac_version &gt;${OUTPUT_LOCATION}/mac_version_output
+vol.py ${VOLATILITY_ARGS} mac_list_sessions &gt;${OUTPUT_LOCATION}/mac_list_sessions_output
+vol.py ${VOLATILITY_ARGS} mac_dead_procs &gt;${OUTPUT_LOCATION}/mac_dead_procs_output
+## http://www.sciencedirect.com/science/article/pii/S1742287616300524 = seems none of the 3 still exists
+#vol.py ${VOLATILITY_ARGS} mac_observers &gt;${OUTPUT_LOCATION}/mac_observers_output
+#vol.py ${VOLATILITY_ARGS} mac_swizzled &gt;${OUTPUT_LOCATION}/mac_swizzled_output
+#vol.py ${VOLATILITY_ARGS} mac_launchd_ports &gt;${OUTPUT_LOCATION}/mac_launchd_ports_output
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
