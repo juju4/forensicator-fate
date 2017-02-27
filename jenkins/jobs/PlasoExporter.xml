@@ -35,6 +35,11 @@
           <description>Special arguments to pass to plaso export to elk commandline (psort.py)</description>
           <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>ELK_INDEX_NAME</name>
+          <description>Index in elasticsearch, either always the same, either ${CASE_NAME} or other</description>
+          <defaultValue>ffate-plaso</defaultValue>
+        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
@@ -47,7 +52,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>psort.py -z$TIMEZONE -o elastic --server ${ELK_IP} --index_name ${CASE_NAME} ${PLASOEXPORT_ARGS} ${OUTPUT_LOCATION}/plaso.dump</command>
+      <command>psort.py -z$TIMEZONE -o elastic --server ${ELK_IP} --index_name ${ELK_INDEX_NAME} ${PLASOEXPORT_ARGS} ${OUTPUT_LOCATION}/plaso.dump</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

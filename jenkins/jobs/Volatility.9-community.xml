@@ -54,7 +54,8 @@ vol.py ${VOLATILITY_ARGS} --plugins /usr/local/share/volatility/volatilityplugin
 vol.py ${VOLATILITY_ARGS} --plugins /usr/local/share/volatility/volatilityplugins/community/FrancescoPicasso/ mimikatz &gt;${OUTPUT_LOCATION}/mimikatz_output
 vol.py ${VOLATILITY_ARGS} --plugins /usr/local/share/volatility/volatilityplugins/community/DaveLasalle/ firefoxhistory --output=csv --output-file=${OUTPUT_LOCATION}/firefoxhistory.csv &gt;${OUTPUT_LOCATION}/firefoxhistory_output
 vol.py ${VOLATILITY_ARGS} --plugins /usr/local/share/volatility/volatilityplugins/community/DaveLasalle/ chromehistory --output=csv --output-file=${OUTPUT_LOCATION}/chromehistory.csv &gt;${OUTPUT_LOCATION}/chromehistory_output
-vol.py ${VOLATILITY_ARGS} --plugins /usr/local/share/volatility/volatilityplugins/community/DaveLasalle/ prefetch &gt;${OUTPUT_LOCATION}/prefetch_output
+## Not working
+#vol.py ${VOLATILITY_ARGS} --plugins /usr/local/share/volatility/volatilityplugins/community/DaveLasalle/ prefetch &gt;${OUTPUT_LOCATION}/prefetch_output
 </command>
     </hudson.tasks.Shell>
   </builders>

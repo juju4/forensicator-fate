@@ -83,7 +83,7 @@
               <onlyExactRuns>false</onlyExactRuns>
             </hudson.plugins.parameterizedtrigger.FileBuildParameters>
           </configs>
-          <projects>VolatilityMac.1-ps,VolatilityMac.2-lib,VolatilityMac.3-net,VolatilityMac.4-injection</projects>
+          <projects>VolatilityMac.1-ps,VolatilityMac.2-lib,VolatilityMac.3-net,VolatilityMac.4-injection,VolatilityMac.5-others</projects>
           <condition>ALWAYS</condition>
           <triggerWithNoParameters>false</triggerWithNoParameters>
           <block>
